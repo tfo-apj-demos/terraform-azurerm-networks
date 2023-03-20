@@ -1,11 +1,3 @@
-# Network Deployment
-
-This module is to assist with the accelerated deployment of a [hub and spoke network topology](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/hybrid-networking/hub-spoke) on Azure.
-
-[Hub and Spoke Topology](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*VrABlc5WLDHoW4Sg.png)
-
-## Example usage
-```
 module "hub" {
   source = "../"
 
@@ -48,4 +40,3 @@ module "spoke_melbourne" {
   peering_ip_address = module.hub.hub_firewall_private_ip
   peering_network_id = module.hub.hub_virtual_network_id
 }
-```
