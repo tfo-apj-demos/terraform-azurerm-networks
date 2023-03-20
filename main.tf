@@ -61,3 +61,30 @@ resource "azurerm_firewall" "this" {
     public_ip_address_id = azurerm_public_ip.this[0].id
   }
 }
+
+resource "azurerm_virtual_network_peering" "this" {
+  count = var.network_type == "spoke" ? 1 : 0
+  name                         = "${local.prefix}-peering-connection"
+  resource_group_name          = azurerm_resource_group.this.name
+  virtual_network_name         = azurerm_virtual_network.this.name
+  remote_virtual_network_id    = var.peering_network_id
+  allow_virtual_network_access = true
+  allow_forwarded_traffic      = true
+
+  allow_gateway_transit = false
+}
+
+resource "azurerm_route_table" "this" {
+  count = var.network_type == "spoke" ? 1 : 0
+  name                          = "${local.prefix}-route-table"
+  location                      = azurerm_virtual_network.this.location
+  resource_group_name           = azurerm_resource_group.this.name
+  disable_bgp_route_propagation = false
+
+  route {
+    name           = "default_route"
+    address_prefix = "0.0.0.0/0"
+    next_hop_type  = "VirtualAppliance"
+    next_hop_in_ip_address = var.peering_ip_address
+  }
+}
