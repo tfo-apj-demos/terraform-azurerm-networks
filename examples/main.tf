@@ -23,8 +23,10 @@ module "spoke_sydney" {
     "workload"
   ]
   location = "Australia East"
+  hub_rg_name = module.hub.management_resource_group_name
+  hub_vnet_name = module.hub.hub_virtual_network_name
   peering_ip_address = module.hub.hub_firewall_private_ip
-  peering_network_id = module.hub.hub_virtual_network_id
+  peering_vnet_id = module.hub.hub_virtual_network_id
 }
 
 module "spoke_melbourne" {
@@ -37,6 +39,8 @@ module "spoke_melbourne" {
     "workload"
   ]
   location = "Australia Southeast"
+  hub_rg_name = module.hub.management_resource_group_name
+  hub_vnet_name = module.hub.hub_virtual_network_name
   peering_ip_address = module.hub.hub_firewall_private_ip
-  peering_network_id = module.hub.hub_virtual_network_id
+  peering_vnet_id = module.hub.hub_virtual_network_id
 }
