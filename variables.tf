@@ -23,12 +23,22 @@ variable "location" {
   type = string
 }
 
+variable "hub_rg_name" {
+  type = string
+  default = ""
+}
+
+variable "hub_vnet_name" {
+  type = string
+  default = ""
+}
+
 variable "peering_ip_address" {
   type = string
   default = ""
 }
 
-variable "peering_network_id" {
+variable "peering_vnet_id" {
   type = string
   default = ""
 }
