@@ -11,6 +11,10 @@ module "hub" {
     "Management",
     "Gateway"
   ]
+  tags = {
+    "DoNotDelete" = "true"
+    "owner" = "go"
+  }
 }
 
 module "spoke_sydney" {
@@ -27,6 +31,10 @@ module "spoke_sydney" {
   hub_vnet_name = module.hub.hub_virtual_network_name
   peering_ip_address = module.hub.hub_firewall_private_ip
   peering_vnet_id = module.hub.hub_virtual_network_id
+  tags = {
+    "DoNotDelete" = "true"
+    "owner" = "go"
+  }
 }
 
 module "spoke_melbourne" {
@@ -43,4 +51,8 @@ module "spoke_melbourne" {
   hub_vnet_name = module.hub.hub_virtual_network_name
   peering_ip_address = module.hub.hub_firewall_private_ip
   peering_vnet_id = module.hub.hub_virtual_network_id
+  tags = {
+    "DoNotDelete" = "true"
+    "owner" = "go"
+  }
 }

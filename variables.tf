@@ -42,3 +42,7 @@ variable "peering_vnet_id" {
   type = string
   default = ""
 }
+
+variable "tags" {
+  type = map(string)
+}

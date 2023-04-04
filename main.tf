@@ -13,9 +13,9 @@ resource "random_uuid" "this" {}
 resource "azurerm_resource_group" "this" {
   name     = "${local.prefix}-rg"
   location = var.location
-  tags = {
+  tags = merge(var.tags, {
     "location" = lookup(local.friendly_location, var.location)
-  }
+  })
 }
 
 resource "azurerm_virtual_network" "this" {
@@ -23,9 +23,9 @@ resource "azurerm_virtual_network" "this" {
   location            = azurerm_resource_group.this.location
   name                = "${local.prefix}-vnet"
   address_space       = [var.address_space]
-  tags = {
+  tags = merge(var.tags, {
     "location" = lookup(local.friendly_location, var.location)
-  }
+  })
 }
 
 resource "azurerm_subnet" "this" {
@@ -45,6 +45,7 @@ resource "azurerm_public_ip" "this" {
   resource_group_name = azurerm_resource_group.this.name
   allocation_method   = "Static"
   sku                 = "Standard"
+  tags = var.tags
 }
 
 resource "azurerm_firewall" "this" {
@@ -54,6 +55,7 @@ resource "azurerm_firewall" "this" {
   resource_group_name = azurerm_resource_group.this.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
+  tags = var.tags
 
   ip_configuration {
     name                 = "configuration"
@@ -68,6 +70,7 @@ resource "azurerm_route_table" "this" {
   location                      = azurerm_virtual_network.this.location
   resource_group_name           = azurerm_resource_group.this.name
   disable_bgp_route_propagation = false
+  tags = var.tags
 
   route {
     name           = "default_route"

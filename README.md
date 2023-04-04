@@ -4,6 +4,8 @@ This module is to assist with the accelerated deployment of a [hub and spoke net
 
 [Hub and Spoke Topology](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*VrABlc5WLDHoW4Sg.png)
 
+For each function listed in subnet functions, a subnet will be created. Because of how Azure handles certain naming conventions, a "firewall" subnet needs specific naming conventions to be applied, so part of defining the functions here is to handle the logic of that constraint.
+
 ## Example usage
 ```
 module "hub" {
@@ -19,6 +21,10 @@ module "hub" {
     "Management",
     "Gateway"
   ]
+  tags = {
+    "DoNotDelete" = "true"
+    "owner" = "go"
+  }
 }
 
 module "spoke_sydney" {
@@ -35,6 +41,10 @@ module "spoke_sydney" {
   hub_vnet_name = module.hub.hub_virtual_network_name
   peering_ip_address = module.hub.hub_firewall_private_ip
   peering_vnet_id = module.hub.hub_virtual_network_id
+  tags = {
+    "DoNotDelete" = "true"
+    "owner" = "go"
+  }
 }
 
 module "spoke_melbourne" {
@@ -51,5 +61,9 @@ module "spoke_melbourne" {
   hub_vnet_name = module.hub.hub_virtual_network_name
   peering_ip_address = module.hub.hub_firewall_private_ip
   peering_vnet_id = module.hub.hub_virtual_network_id
+  tags = {
+    "DoNotDelete" = "true"
+    "owner" = "go"
+  }
 }
 ```
