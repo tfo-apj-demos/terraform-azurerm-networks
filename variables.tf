@@ -23,12 +23,12 @@ variable "location" {
   type = string
 }
 
-variable "hub_rg_name" {
+variable "peering_resource_group_name" {
   type = string
   default = ""
 }
 
-variable "hub_vnet_name" {
+variable "peering_vnet_name" {
   type = string
   default = ""
 }

@@ -6,6 +6,8 @@ This module is to assist with the accelerated deployment of a [hub and spoke net
 
 For each function listed in subnet functions, a subnet will be created. Because of how Azure handles certain naming conventions, a "firewall" subnet needs specific naming conventions to be applied, so part of defining the functions here is to handle the logic of that constraint.
 
+Peering must be configured when the `network_type = "spoke"` *only*. There is conditional logic to handle bi-directional peering when the network type is spoke, that will be ignored if you attempt to pass in variables to configure this when `network_type = "hub"`.
+
 ## Example usage
 ```
 module "hub" {

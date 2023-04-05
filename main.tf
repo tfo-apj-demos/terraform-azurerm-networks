@@ -83,7 +83,7 @@ resource "azurerm_route_table" "this" {
 resource "azurerm_virtual_network_peering" "spoke-hub" {
   count = var.network_type == "spoke" ? 1 : 0
 
-  name                         = "${local.prefix}-peer"
+  name                         = "${local.prefix}-spoke-to-hub-peer"
   resource_group_name          = azurerm_resource_group.this.name
   virtual_network_name         = azurerm_virtual_network.this.name
   remote_virtual_network_id    = var.peering_vnet_id
@@ -96,9 +96,9 @@ resource "azurerm_virtual_network_peering" "spoke-hub" {
 resource "azurerm_virtual_network_peering" "hub-spoke" {
   count = var.network_type == "spoke" ? 1 : 0
 
-  name                         = "${local.prefix}-peer"
-  resource_group_name          = var.hub_rg_name
-  virtual_network_name         = var.hub_vnet_name
+  name                         = "${local.prefix}-hub-to-spoke-peer"
+  resource_group_name          = var.peering_resource_group_name
+  virtual_network_name         = var.peering_vnet_name
   remote_virtual_network_id    = azurerm_virtual_network.this.id
 
   allow_virtual_network_access = true
